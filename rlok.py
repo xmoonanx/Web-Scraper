@@ -15,3 +15,4 @@ with sync_playwright() as p: # p = sync_playwright()
     #"https://remoteok.com/remote-flutter-jobs"
     
     print(page.title())
+    
