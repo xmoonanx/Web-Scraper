@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>구직 정보 스크래퍼</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #e9ecef;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #343a40;
+        margin-bottom: 20px;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      input[type="text"] {
+        padding: 12px;
+        width: 100%;
+        max-width: 400px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      button {
+        padding: 12px 25px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #6c757d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>구직 정보 스크래퍼</h1>
+      <form method="POST">
+        <input
+          type="text"
+          id="search_term"
+          name="search_term"
+          placeholder="검색어를 입력하세요"
+          required
+        />
+        <button type="submit">검색</button>
+      </form>
+      <div class="footer">
+        <p>구직 정보를 보다 쉽게 찾아보세요!</p>
+      </div>
+    </div>
+  </body>
+</html>
