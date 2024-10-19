@@ -3,6 +3,7 @@ from playwright.sync_api import sync_playwright
 import time
 # playwright는 동적환경을 다룰 수 있다.
 from bs4 import BeautifulSoup
+import csv
 
 with sync_playwright() as p: # p = sync_playwright()
     browser= p.chromium.launch(headless=False) #chromium으로 브라우저 설정
@@ -58,5 +59,11 @@ with sync_playwright() as p: # p = sync_playwright()
         }
         jobs_db.append(job)
         
-    print(jobs_db)
-    print(len(jobs_db))
+file =open("jobs.csv", "w")
+writer = csv.writer(file)
+writer.writerow(["Title", "Company", "Reward", "Link"])
+#csv에 웹 데이터 정리하기
+for job in jobs_db:
+    writer.writerow(job.values())
+    # writerow는 list로만 데이터를 받을 수 있기 때문에 
+    # job의 dictionary형태를 values를 활용하여 list로 변경
