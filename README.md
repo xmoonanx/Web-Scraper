@@ -43,6 +43,8 @@
 
 ## 파일 구조
 
-```bash
-/job-scraper │ ├── app.py # Flask 서버 코드: 애플리케이션의 백엔드 로직 ├── templates/ # HTML 파일: 사용자 인터페이스 구성 │ ├── index.html # 메인 페이지: 검색 폼 및 결과 표시 ├── static/ # 정적 파일: CSS 및 JavaScript │ ├── styles.css # 스타일 시트: 페이지 디자인 │ ├── script.js # 클라이언트 측 JavaScript: 검색 기능 및 결과 처리 └── requirements.txt # 필요 패키지 목록: 프로젝트 의존성 관리
-```
+- **rlok.py**: 애플리케이션의 주요 백엔드 로직을 처리하는 Flask 서버 코드입니다.
+- **templates/**: 사용자 인터페이스를 구성하는 HTML,CSS와 JavaScript 파일들이 위치합니다.
+  - **index.html**: 사용자가 검색할 수 있는 메인 페이지입니다.
+
+이 구조는 애플리케이션의 백엔드와 프론트엔드를 효과적으로 분리하여 관리합니다.
