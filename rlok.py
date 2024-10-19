@@ -91,10 +91,11 @@ class JobScraper:
     def scrape_jobs(self, page):
         start_time = time.time()  # 시작 시간
         page.goto("https://www.wanted.co.kr")
-        time.sleep(5)
+        time.sleep(4)
         page.wait_for_selector("button.Aside_searchButton__rajGo", state="visible")
         page.click("button.Aside_searchButton__rajGo")
 
+        time.sleep(2)
         # 검색어 입력
         page.get_by_placeholder("검색어를 입력해 주세요.").fill(self.search_term)
         page.keyboard.press("Enter")
@@ -150,7 +151,8 @@ class JobScraper:
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        search_term = request.form.get("search_term")
+        data = request.get_json()  # JSON 데이터 받기
+        search_term = data.get("search_term")
         filename = f"jobs_{search_term}.csv"
 
         scraper = JobScraper(search_term)
@@ -160,6 +162,7 @@ def index():
         return send_file(filename, as_attachment=True)
 
     return render_template("index.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
