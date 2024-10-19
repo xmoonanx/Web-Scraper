@@ -67,14 +67,14 @@
 #     writer.writerow(job.values())
 #     # writerow는 list로만 데이터를 받을 수 있기 때문에 
 #     # job의 dictionary형태를 values를 활용하여 list로 변경
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, jsonify
 import os
 import time
 import csv
 from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='templates')
 
 class JobScraper:
     def __init__(self, search_term):
@@ -151,17 +151,21 @@ class JobScraper:
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        data = request.get_json()  # JSON 데이터 받기
-        search_term = data.get("search_term")
-        filename = f"jobs_{search_term}.csv"
+        if request.is_json:  # 요청이 JSON인지 확인
+            data = request.get_json()  # JSON 데이터 받기
+            search_term = data.get("search_term")
+            filename = f"jobs_{search_term}.csv"
 
-        scraper = JobScraper(search_term)
-        scraper.launch_browser()
-        scraper.save_to_csv(filename)
+            scraper = JobScraper(search_term)
+            scraper.launch_browser()
+            scraper.save_to_csv(filename)
 
-        return send_file(filename, as_attachment=True)
+            return jsonify({"jobs": scraper.jobs_db})  # JSON 응답으로 변경
+        else:
+            return jsonify({"error": "Invalid content type"}), 400  # 오류 응답 추가
 
     return render_template("index.html")
+
 
 
 if __name__ == "__main__":

@@ -4,93 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>구직 정보 스크래퍼</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-        background-color: #f0f4f8;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      .container {
-        background: white;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 500px;
-        text-align: center;
-      }
-      h1 {
-        color: #333;
-        margin-bottom: 30px;
-        font-weight: 700;
-      }
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-      input[type="text"] {
-        padding: 15px;
-        border: 2px solid #5cb85c;
-        border-radius: 6px;
-        font-size: 16px;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-      input[type="text"]:focus {
-        border-color: #4cae4c;
-        outline: none;
-        box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-      }
-      button {
-        padding: 15px;
-        border: none;
-        background-color: #5cb85c;
-        color: white;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s, transform 0.3s;
-      }
-      button:hover {
-        background-color: #4cae4c;
-        transform: translateY(-2px);
-      }
-      .results {
-        margin-top: 30px;
-        text-align: left;
-        display: none; /* 기본적으로 숨김 */
-      }
-      .result-item {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        margin: 10px 0;
-        background-color: #f9f9f9;
-        transition: background-color 0.3s;
-      }
-      .result-item:hover {
-        background-color: #f1f1f1;
-      }
-      .loading {
-        margin: 20px 0;
-        font-size: 16px;
-        color: #777;
-      }
-      footer {
-        margin-top: 20px;
-        font-size: 0.9em;
-        color: #777;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="container">
@@ -106,57 +20,12 @@
         <button type="submit">검색</button>
       </form>
       <div class="loading" id="loading" style="display: none">로딩 중...</div>
-      <div class="results" id="results">
-        <h2>검색 결과</h2>
-        <!-- 검색 결과가 여기에 표시됩니다 -->
-      </div>
+      <div class="results" id="results"></div>
+      <div class="pagination" id="pagination" style="display: none"></div>
       <footer>
         <p>&copy; 2024 구직 정보 스크래퍼</p>
       </footer>
     </div>
-
-    <script>
-      const form = document.getElementById("search-form");
-      const resultsDiv = document.getElementById("results");
-      const loadingDiv = document.getElementById("loading");
-
-      form.addEventListener("submit", async function (event) {
-        event.preventDefault(); // 기본 제출 방지
-        const searchTerm = document.getElementById("search_term").value;
-
-        loadingDiv.style.display = "block"; // 로딩 표시
-        resultsDiv.style.display = "none"; // 이전 결과 숨기기
-
-        const response = await fetch("/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ search_term: searchTerm }),
-        });
-
-        loadingDiv.style.display = "none"; // 로딩 숨기기
-
-        if (response.ok) {
-          const data = await response.json();
-          resultsDiv.innerHTML = "<h2>검색 결과</h2>"; // 결과 헤더 초기화
-          data.jobs.forEach((job) => {
-            const resultItem = document.createElement("div");
-            resultItem.className = "result-item";
-            resultItem.innerHTML = `
-                        <strong>${job.title}</strong><br>
-                        ${job.company_name} - ${job.reward}<br>
-                        <a href="${job.link}" target="_blank">자세히 보기</a>
-                    `;
-            resultsDiv.appendChild(resultItem);
-          });
-          resultsDiv.style.display = "block"; // 결과 보여주기
-          document.getElementById("search_term").value = ""; // 검색어 초기화
-        } else {
-          resultsDiv.innerHTML = "<p>검색 결과를 가져오는 데 실패했습니다.</p>";
-          resultsDiv.style.display = "block";
-        }
-      });
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
