@@ -83,7 +83,7 @@ class JobScraper:
 
     def launch_browser(self):
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)  # headless 모드
+            browser = p.chromium.launch(headless=False)  # headless 모드로 실행
             page = browser.new_page()
             self.scrape_jobs(page)
             browser.close()
@@ -92,8 +92,6 @@ class JobScraper:
         start_time = time.time()  # 시작 시간
         page.goto("https://www.wanted.co.kr")
         time.sleep(5)
-        # 검색 버튼이 보일 때까지 대기
-        time.sleep(5)
         page.wait_for_selector("button.Aside_searchButton__rajGo", state="visible")
         page.click("button.Aside_searchButton__rajGo")
 
@@ -101,7 +99,7 @@ class JobScraper:
         page.get_by_placeholder("검색어를 입력해 주세요.").fill(self.search_term)
         page.keyboard.press("Enter")
 
-        # 검색 탭이 보일 때까지 대기
+        # 검색 결과 대기
         page.wait_for_selector("a#search_tab_position", state="visible")
         page.click("a#search_tab_position")
 
@@ -142,14 +140,12 @@ class JobScraper:
                 })
 
     def save_to_csv(self, filename):
-        
         with open(filename, "w", newline='', encoding='utf-8') as file:
             writer = csv.DictWriter(file, fieldnames=["title", "company_name", "reward", "link"])
             writer.writeheader()
             writer.writerows(self.jobs_db)
-       
-        print(f"총 {len(self.jobs_db)}개의 정보를 '{filename}'에 저장했습니다.")
 
+        print(f"총 {len(self.jobs_db)}개의 정보를 '{filename}'에 저장했습니다.")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -167,6 +163,7 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
